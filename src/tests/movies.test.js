@@ -1,11 +1,45 @@
 const request = require('supertest')
 const app = require('../app')
+const Directors = require('../models/Directors')
+const Genres = require('../models/Genres')
+const Actors = require('../models/Actors')
 
 const URL_MOVIES = '/genres'
 
-const movie ={
-    name: "pedro" 
+movie = {
+    name: "Spiderman",
+    image: "Spiderman",
+    synopsis: "Spiderman",
+    releaseYear: "01/01/1990"
+   
 }
+
+beforeAll(async ()=>{
+    
+    director = await Directors.create({
+        firstName: "Peter",
+        lastName: "Parker",
+        nationality: "American",
+        image: "Spiderman",
+        birthday: "01/01/1990",
+        director_id: movie.id
+        
+    })
+     genre = await Genres.create({
+        name: "action" 
+    })
+    actor = await Actors.create({
+        firstName: "Peter",
+        lastName: "Parker",
+        nationality: "American",
+        image: "Spiderman",
+        birthday: "01/01/1990",
+        actor_id: movie.id 
+    })
+
+
+}) 
+
  
  let movie_id; 
 
