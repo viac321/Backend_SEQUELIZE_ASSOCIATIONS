@@ -34,7 +34,6 @@ test("Get -> 'URL_GENRES', should return status code 200 and res.body to be defi
 test ("PUT -> 'URL_GENRES', should return status code 200 and udate res.body", async()=>{
     const newGenre = { name: "Juanito sola" } 
     const res = await request(app).put(`${URL_GENRES}/${genre_id}`).send(newGenre)
-    console.log(res.body)
     expect(res.status).toBe(200)
     expect(res.body.name).toBe(newGenre.name)
 })

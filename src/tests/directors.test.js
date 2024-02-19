@@ -41,7 +41,6 @@ test("Get -> 'URL_DIRECTORS', should return status code 200 and res.body to be d
 test ("PUT -> 'URL_DIRECTORS', should return status code 200 and udate res.body", async()=>{
     const newDirector = { firstName: "Juanito sola" } 
     const res = await request(app).put(`/directors/${director_id}`).send(newDirector)
-    console.log(res.body)
     expect(res.status).toBe(200)
     expect(res.body.name).toBe(newDirector.name)
 })
