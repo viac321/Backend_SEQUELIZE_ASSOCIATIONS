@@ -7,8 +7,7 @@ const genre ={
     name: "pedro" 
 }
  
- let genre_id; 
-
+let genre_id; 
 
 
 test("Post -> 'URL_GENRES', should return status code 201, and res.body to be defined and res.body = actor", async () => { 
