@@ -1,5 +1,6 @@
 const request = require('supertest')
 const app = require('../app')
+require('../models')
 const Directors = require('../models/Directors')
 const Genres = require('../models/Genres')
 const Actors = require('../models/Actors')
