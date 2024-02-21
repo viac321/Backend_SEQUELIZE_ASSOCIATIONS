@@ -5,7 +5,7 @@ const Directors = require('../models/Directors')
 const Genres = require('../models/Genres')
 const Actors = require('../models/Actors')
 
-const URL_MOVIES = '/genres'
+const URL_MOVIES = '/movies'
 
 movie = {
     name: "Spiderman",
@@ -15,31 +15,30 @@ movie = {
    
 }
 
-beforeAll(async ()=>{
-    
-    director = await Directors.create({
-        firstName: "Peter",
-        lastName: "Parker",
-        nationality: "American",
-        image: "Spiderman",
-        birthday: "01/01/1990",
-        director_id: movie.id
-        
-    })
-     genre = await Genres.create({
-        name: "action" 
-    })
-    actor = await Actors.create({
-        firstName: "Peter",
-        lastName: "Parker",
-        nationality: "American",
-        image: "Spiderman",
-        birthday: "01/01/1990",
-        actor_id: movie.id 
-    })
+/* beforeAll(async ()=>{
+
+director = await Directors.create({
+firstName: "Peter",
+lastName: "Parker",
+nationality: "American",
+image: "Spiderman",
+birthday: "01/01/1990",
+director_id: movie.id
+
+})
+genre = await Genres.create({
+name: "action" 
+})
+actor = await Actors.create({
+firstName: "Peter",
+lastName: "Parker",
+nationality: "American",
+image: "Spiderman",
+birthday: "01/01/1990",
+})
 
 
-}) 
+})  */
 
  
  let movie_id; 
@@ -65,13 +64,58 @@ test("Get -> 'URL_MOVIES', should return status code 200 and res.body to be defi
     const res = await request(app).get(URL_MOVIES)
     expect(res.status).toBe(200);
 })
-
-test ("PUT -> 'URL_MOVIES', should return status code 200 and udate res.body", async()=>{
+//code 200 => ok
+test ("POST -> 'URL_MOVIES', should return status code 200 and update res.body", async()=>{
     const newGenre = { name: "Juanito sola" } 
-    const res = await request(app).put(`${URL_MOVIES}/${movie_id}`).send(newGenre)
+    const genreCreated = await Genres.create(newGenre)
+
+    const res = await request(app)
+    .post(`${URL_MOVIES}/${movie_id}/genres`)
+    .send([genreCreated.id])
+    console.log(movie_id)
+    
     expect(res.status).toBe(200)
-    expect(res.body.name).toBe(newGenre.name)
+    expect(res.body).toHaveLength(1)
 })
+
+test ("POST -> 'URL_MOVIES', should return status code 200 and update res.body", async()=>{
+    const newActor = { firstName: "Juanito sola", 
+    lastName: "Juanito", 
+    nationality: "Chile", 
+    image: "Spiderman", 
+    birthday: "01/01/1990" } 
+
+    const actorCreated = await Actors.create(newActor)
+   
+    const res = await request(app)
+    .post(`${URL_MOVIES}/${movie_id}/actors`)
+    .send([actorCreated.id])
+   
+    
+    expect(res.status).toBe(200)
+    expect(res.body).toHaveLength(1)
+})
+
+test ("POST -> 'URL_MOVIES', should return status code 200 and update res.body", async()=>{
+    const newDirector = { firstName: "Juanito sola", 
+    lastName: "Juanito", 
+    nationality: "Chile", 
+    image: "Spiderman", 
+    birthday: "01/01/1990" } 
+
+    const directorCreated = await Directors.create(newDirector)
+   
+    const res = await request(app)
+    .post(`${URL_MOVIES}/${movie_id}/directors`)
+    .send([directorCreated.id])
+   
+    
+    expect(res.status).toBe(200)
+    expect(res.body).toHaveLength(1)
+})
+ 
+
+
 
 //code 204 => No Content 
 test("Delete -> 'URL_MOVIES', should return status code 204", async () => {
